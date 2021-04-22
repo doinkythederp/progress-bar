@@ -105,28 +105,28 @@ export default class ProgressBar {
 	static _renderPercent(out: typeof process.stdout, label: string, percent: number, max: number) {
 		out.write(AnsiCodes.clear);
 		out.write(AnsiCodes.start);
-		out.write(`${label ? label + " " : ""}${Math.floor(percent / (max / 100))}%`.substr(0, out.columns));
+		out.write(`${label ? label + " " : ""}${getPercent(percent, max)}%`.substr(0, out.columns));
 	}
 
 	/** @protected */
 	static _renderPercentSpin(out: typeof process.stdout, label: string, percent: number, max: number, spinState: number) {
 		out.write(AnsiCodes.clear);
 		out.write(AnsiCodes.start);
-		out.write(`${label ? label + " " : ""}${Math.floor(percent / (max / 100))}%${percent !== max ? " " + spinStates[spinState] : " ✓"}`.substr(0, out.columns));
+		out.write(`${label ? label + " " : ""}${getPercent(percent, max)}%${percent !== max ? " " + spinStates[spinState] : " ✓"}`.substr(0, out.columns));
 	}
 
 	/** @protected */
 	static _renderBarPercent(out: typeof process.stdout, length: number, label: string, percent: number, max: number) {
 		out.write(AnsiCodes.clear);
 		out.write(AnsiCodes.start);
-		out.write(`${label ? label + " " : ""}[${"#".repeat(Math.floor(percent / (max / length)))}${" ".repeat(length - Math.floor(percent / (max / length)))}] ${Math.floor(percent / (max / 100))}%`.substr(0, out.columns));
+		out.write(`${label ? label + " " : ""}[${"#".repeat(Math.floor(percent / (max / length)))}${" ".repeat(length - Math.floor(percent / (max / length)))}] ${getPercent(percent, max)}%`.substr(0, out.columns));
 	}
 
 	/** @protected */
 	static _renderBarPercentSpin(out: typeof process.stdout, length: number, label: string, percent: number, max: number, spinState: number) {
 		out.write(AnsiCodes.clear);
 		out.write(AnsiCodes.start);
-		out.write(`${label ? label + " " : ""}[${"#".repeat(Math.floor(percent / (max / length)))}${" ".repeat(length - Math.floor(percent / (max / length)))}] ${Math.floor(percent / (max / 100))}%${percent !== max ? " " + spinStates[spinState] : " ✓"}`.substr(0, out.columns));
+		out.write(`${label ? label + " " : ""}[${"#".repeat(Math.floor(percent / (max / length)))}${" ".repeat(length - Math.floor(percent / (max / length)))}] ${getPercent(percent, max)}%${percent !== max ? " " + spinStates[spinState] : " ✓"}`.substr(0, out.columns));
 	}
 
 	render() {
@@ -176,4 +176,10 @@ export default class ProgressBar {
 		}
 		return this;
 	}
+}
+
+function getPercent(current: number, max: number) {
+	let percent = Math.floor(current / (max / 100));
+	if (isNaN(percent)) percent = 100;
+	return percent
 }
