@@ -84,14 +84,14 @@ export default class ProgressBar {
 	static _renderBar(out: typeof process.stdout, length: number, label: string, percent: number, max: number) {
 		out.write(AnsiCodes.clear);
 		out.write(AnsiCodes.start);
-		out.write(`${label ? label + " " : ""}[${"#".repeat(Math.floor(percent / (max / length)))}${" ".repeat(length - Math.floor(percent / (max / length)))}]`.substr(0, out.columns));
+		out.write(`${label ? label + " " : ""}[${createBar(percent, max, length)}]`.substr(0, out.columns));
 	}
 
 	/** @protected */
 	static _renderBarSpin(out: typeof process.stdout, length: number, label: string, percent: number, max: number, spinState: number) {
 		out.write(AnsiCodes.clear);
 		out.write(AnsiCodes.start);
-		out.write(`${label ? label + " " : ""}[${"#".repeat(Math.floor(percent / (max / length)))}${" ".repeat(length - Math.floor(percent / (max / length)))}]${percent !== max ? " " + spinStates[spinState] : " ✓"}`.substr(0, out.columns));
+		out.write(`${label ? label + " " : ""}[${createBar(percent, max, length)}]${percent !== max ? " " + spinStates[spinState] : " ✓"}`.substr(0, out.columns));
 	}
 
 	/** @protected */
@@ -119,14 +119,14 @@ export default class ProgressBar {
 	static _renderBarPercent(out: typeof process.stdout, length: number, label: string, percent: number, max: number) {
 		out.write(AnsiCodes.clear);
 		out.write(AnsiCodes.start);
-		out.write(`${label ? label + " " : ""}[${"#".repeat(Math.floor(percent / (max / length)))}${" ".repeat(length - Math.floor(percent / (max / length)))}] ${getPercent(percent, max)}%`.substr(0, out.columns));
+		out.write(`${label ? label + " " : ""}[${createBar(percent, max, length)}] ${getPercent(percent, max)}%`.substr(0, out.columns));
 	}
 
 	/** @protected */
 	static _renderBarPercentSpin(out: typeof process.stdout, length: number, label: string, percent: number, max: number, spinState: number) {
 		out.write(AnsiCodes.clear);
 		out.write(AnsiCodes.start);
-		out.write(`${label ? label + " " : ""}[${"#".repeat(Math.floor(percent / (max / length)))}${" ".repeat(length - Math.floor(percent / (max / length)))}] ${getPercent(percent, max)}%${percent !== max ? " " + spinStates[spinState] : " ✓"}`.substr(0, out.columns));
+		out.write(`${label ? label + " " : ""}[${createBar(percent, max, length)}] ${getPercent(percent, max)}%${percent !== max ? " " + spinStates[spinState] : " ✓"}`.substr(0, out.columns));
 	}
 
 	render() {
@@ -182,4 +182,8 @@ function getPercent(current: number, max: number) {
 	let percent = Math.floor(current / (max / 100));
 	if (isNaN(percent)) percent = 100;
 	return percent
+}
+
+function createBar(current: number, max: number, length: number) {
+	return `[${"#".repeat(Math.floor(current / (max / length)))}${" ".repeat(length - Math.floor(current / (max / length)))}]`;
 }
