@@ -1,4 +1,3 @@
-import { Writable as WriteStream } from "stream";
 /** The type of the progress bar */
 export type ProgressBarType = "bar" | "bar/spin" | "spin" | "percent" | "percent/spin" | "bar/percent" | "bar/percent/spin";
 
@@ -81,52 +80,52 @@ export class ProgressBar {
 	isFinished: boolean;
 
 	/** @protected */
-	static _renderBar(out: WriteStream, length: number, label: string, percent: number, max: number) {
+	static _renderBar(out: typeof process.stdout, length: number, label: string, percent: number, max: number) {
 		out.write(AnsiCodes.clear);
 		out.write(AnsiCodes.start);
-		out.write(`${label ? label + " " : ""}[${"#".repeat(Math.floor(percent / (max / length)))}${" ".repeat(length - Math.floor(percent / (max / length)))}]`);
+		out.write(`${label ? label + " " : ""}[${"#".repeat(Math.floor(percent / (max / length)))}${" ".repeat(length - Math.floor(percent / (max / length)))}]`.substr(0, out.columns));
 	}
 
 	/** @protected */
-	static _renderBarSpin(out: WriteStream, length: number, label: string, percent: number, max: number, spinState: number) {
+	static _renderBarSpin(out: typeof process.stdout, length: number, label: string, percent: number, max: number, spinState: number) {
 		out.write(AnsiCodes.clear);
 		out.write(AnsiCodes.start);
-		out.write(`${label ? label + " " : ""}[${"#".repeat(Math.floor(percent / (max / length)))}${" ".repeat(length - Math.floor(percent / (max / length)))}]${percent !== max ? " " + spinStates[spinState] : " ✓"}`);
+		out.write(`${label ? label + " " : ""}[${"#".repeat(Math.floor(percent / (max / length)))}${" ".repeat(length - Math.floor(percent / (max / length)))}]${percent !== max ? " " + spinStates[spinState] : " ✓"}`.substr(0, out.columns));
 	}
 
 	/** @protected */
-	static _renderSpin(out: WriteStream, label: string, spinState: number) {
+	static _renderSpin(out: typeof process.stdout, label: string, spinState: number) {
 		out.write(AnsiCodes.clear);
 		out.write(AnsiCodes.start);
-		out.write(`${label ? label + " " : ""}${spinStates[spinState]}`);
+		out.write(`${label ? label + " " : ""}${spinStates[spinState]}`.substr(0, out.columns));
 	}
 
 	/** @protected */
-	static _renderPercent(out: WriteStream, label: string, percent: number, max: number) {
+	static _renderPercent(out: typeof process.stdout, label: string, percent: number, max: number) {
 		out.write(AnsiCodes.clear);
 		out.write(AnsiCodes.start);
-		out.write(`${label ? label + " " : ""}${Math.floor(percent / (max / 100))}%`);
+		out.write(`${label ? label + " " : ""}${Math.floor(percent / (max / 100))}%`.substr(0, out.columns));
 	}
 
 	/** @protected */
-	static _renderPercentSpin(out: WriteStream, label: string, percent: number, max: number, spinState: number) {
+	static _renderPercentSpin(out: typeof process.stdout, label: string, percent: number, max: number, spinState: number) {
 		out.write(AnsiCodes.clear);
 		out.write(AnsiCodes.start);
-		out.write(`${label ? label + " " : ""}${Math.floor(percent / (max / 100))}%${percent !== max ? " " + spinStates[spinState] : " ✓"}`);
+		out.write(`${label ? label + " " : ""}${Math.floor(percent / (max / 100))}%${percent !== max ? " " + spinStates[spinState] : " ✓"}`.substr(0, out.columns));
 	}
 
 	/** @protected */
-	static _renderBarPercent(out: WriteStream, length: number, label: string, percent: number, max: number) {
+	static _renderBarPercent(out: typeof process.stdout, length: number, label: string, percent: number, max: number) {
 		out.write(AnsiCodes.clear);
 		out.write(AnsiCodes.start);
-		out.write(`${label ? label + " " : ""}[${"#".repeat(Math.floor(percent / (max / length)))}${" ".repeat(length - Math.floor(percent / (max / length)))}] ${Math.floor(percent / (max / 100))}%`);
+		out.write(`${label ? label + " " : ""}[${"#".repeat(Math.floor(percent / (max / length)))}${" ".repeat(length - Math.floor(percent / (max / length)))}] ${Math.floor(percent / (max / 100))}%`.substr(0, out.columns));
 	}
 
 	/** @protected */
-	static _renderBarPercentSpin(out: WriteStream, length: number, label: string, percent: number, max: number, spinState: number) {
+	static _renderBarPercentSpin(out: typeof process.stdout, length: number, label: string, percent: number, max: number, spinState: number) {
 		out.write(AnsiCodes.clear);
 		out.write(AnsiCodes.start);
-		out.write(`${label ? label + " " : ""}[${"#".repeat(Math.floor(percent / (max / length)))}${" ".repeat(length - Math.floor(percent / (max / length)))}] ${Math.floor(percent / (max / 100))}%${percent !== max ? " " + spinStates[spinState] : " ✓"}`);
+		out.write(`${label ? label + " " : ""}[${"#".repeat(Math.floor(percent / (max / length)))}${" ".repeat(length - Math.floor(percent / (max / length)))}] ${Math.floor(percent / (max / 100))}%${percent !== max ? " " + spinStates[spinState] : " ✓"}`.substr(0, out.columns));
 	}
 
 	render() {
