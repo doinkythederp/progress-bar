@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ProgressBar = void 0;
 var AnsiCodes;
 (function (AnsiCodes) {
     AnsiCodes["clear"] = "\u001B[2K";
@@ -16,7 +15,8 @@ const spinStates = {
  * Progress bar that goes in the console
  */
 class ProgressBar {
-    constructor(options = {}, out = process.stdout) {
+    constructor(options, out = process.stdout) {
+        options = options ?? {};
         this.type = options.type ?? "bar",
             this.out = out, this.percent = options.start ?? 0,
             this.max = options.max ?? 100,
@@ -116,4 +116,4 @@ class ProgressBar {
         return this;
     }
 }
-exports.ProgressBar = ProgressBar;
+exports.default = ProgressBar;

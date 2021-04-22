@@ -10,7 +10,7 @@ interface ProgressBarOptions {
 /**
  * Progress bar that goes in the console
  */
-export declare class ProgressBar {
+export default class ProgressBar {
     constructor(options?: ProgressBarOptions, out?: typeof process.stdout);
     /** The length of the bar when using bar types */
     barLength: number;

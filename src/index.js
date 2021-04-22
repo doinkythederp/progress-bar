@@ -12,8 +12,9 @@ const spinStates = {
 /**
  * Progress bar that goes in the console
  */
-export class ProgressBar {
-    constructor(options = {}, out = process.stdout) {
+export default class ProgressBar {
+    constructor(options, out = process.stdout) {
+        options = options ?? {};
         this.type = options.type ?? "bar",
             this.out = out, this.percent = options.start ?? 0,
             this.max = options.max ?? 100,
