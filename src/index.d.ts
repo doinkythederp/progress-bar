@@ -7,12 +7,15 @@ interface ProgressBarOptions {
     label?: string;
     start?: number;
     max?: number;
+    length?: number;
 }
 /**
  * Progress bar that goes in the console
  */
 export declare class ProgressBar {
     constructor(options?: ProgressBarOptions, out?: WriteStream);
+    /** The length of the bar when using bar types */
+    barLength: number;
     /**
      * Whether or not the progress bar has been rendered
      * @protected
@@ -38,9 +41,9 @@ export declare class ProgressBar {
     /** Whether or not the progress bar has finished - if true, means that logging is safe. */
     isFinished: boolean;
     /** @protected */
-    static _renderBar(out: WriteStream, label: string, percent: number, max: number): void;
+    static _renderBar(out: WriteStream, length: number, label: string, percent: number, max: number): void;
     /** @protected */
-    static _renderBarSpin(out: WriteStream, label: string, percent: number, max: number, spinState: number): void;
+    static _renderBarSpin(out: WriteStream, length: number, label: string, percent: number, max: number, spinState: number): void;
     /** @protected */
     static _renderSpin(out: WriteStream, label: string, spinState: number): void;
     /** @protected */
@@ -48,9 +51,9 @@ export declare class ProgressBar {
     /** @protected */
     static _renderPercentSpin(out: WriteStream, label: string, percent: number, max: number, spinState: number): void;
     /** @protected */
-    static _renderBarPercent(out: WriteStream, label: string, percent: number, max: number): void;
+    static _renderBarPercent(out: WriteStream, length: number, label: string, percent: number, max: number): void;
     /** @protected */
-    static _renderBarPercentSpin(out: WriteStream, label: string, percent: number, max: number, spinState: number): void;
+    static _renderBarPercentSpin(out: WriteStream, length: number, label: string, percent: number, max: number, spinState: number): void;
     render(): void;
     tick(percent?: number): this;
 }

@@ -18,7 +18,8 @@ interface ProgressBarOptions {
 	type?: ProgressBarType,
 	label?: string,
 	start?: number,
-	max?: number
+	max?: number,
+	length?: number
 }
 
 /**
@@ -32,12 +33,16 @@ export class ProgressBar {
 		this.label = options.label ?? "",
 		this._spinState = 0,
 		this.isFinished = false,
-		this.rendered = false;
+		this.rendered = false,
+		this.barLength = options.length ?? 20;
 
 		this.finish = new Promise((resolve) => {
 			this._finish = resolve;
 		});
 	}
+
+	/** The length of the bar when using bar types */
+	barLength: number;
 
 	/**
 	 * Whether or not the progress bar has been rendered
@@ -74,17 +79,17 @@ export class ProgressBar {
 	isFinished: boolean;
 
 	/** @protected */
-	static _renderBar(out: WriteStream, label: string, percent: number, max: number) {
+	static _renderBar(out: WriteStream, length: number, label: string, percent: number, max: number) {
 		out.write(AnsiCodes.clear);
 		out.write(AnsiCodes.start);
-		out.write(`${label ? label + " " : ""}[${"#".repeat(Math.floor(percent / (max / 20)))}${" ".repeat(20 - Math.floor(percent / (max / 20)))}]`);
+		out.write(`${label ? label + " " : ""}[${"#".repeat(Math.floor(percent / (max / length)))}${" ".repeat(length - Math.floor(percent / (max / length)))}]`);
 	}
 
 	/** @protected */
-	static _renderBarSpin(out: WriteStream, label: string, percent: number, max: number, spinState: number) {
+	static _renderBarSpin(out: WriteStream, length: number, label: string, percent: number, max: number, spinState: number) {
 		out.write(AnsiCodes.clear);
 		out.write(AnsiCodes.start);
-		out.write(`${label ? label + " " : ""}[${"#".repeat(Math.floor(percent / (max / 20)))}${" ".repeat(20 - Math.floor(percent / (max / 20)))}]${percent !== max ? " " + spinStates[spinState] : " ✓"}`);
+		out.write(`${label ? label + " " : ""}[${"#".repeat(Math.floor(percent / (max / length)))}${" ".repeat(length - Math.floor(percent / (max / length)))}]${percent !== max ? " " + spinStates[spinState] : " ✓"}`);
 	}
 
 	/** @protected */
@@ -109,26 +114,26 @@ export class ProgressBar {
 	}
 
 	/** @protected */
-	static _renderBarPercent(out: WriteStream, label: string, percent: number, max: number) {
+	static _renderBarPercent(out: WriteStream, length: number, label: string, percent: number, max: number) {
 		out.write(AnsiCodes.clear);
 		out.write(AnsiCodes.start);
-		out.write(`${label ? label + " " : ""}[${"#".repeat(Math.floor(percent / (max / 20)))}${" ".repeat(20 - Math.floor(percent / (max / 20)))}] ${Math.floor(percent / (max / 100))}%`);
+		out.write(`${label ? label + " " : ""}[${"#".repeat(Math.floor(percent / (max / length)))}${" ".repeat(length - Math.floor(percent / (max / length)))}] ${Math.floor(percent / (max / 100))}%`);
 	}
 
 	/** @protected */
-	static _renderBarPercentSpin(out: WriteStream, label: string, percent: number, max: number, spinState: number) {
+	static _renderBarPercentSpin(out: WriteStream, length: number, label: string, percent: number, max: number, spinState: number) {
 		out.write(AnsiCodes.clear);
 		out.write(AnsiCodes.start);
-		out.write(`${label ? label + " " : ""}[${"#".repeat(Math.floor(percent / (max / 20)))}${" ".repeat(20 - Math.floor(percent / (max / 20)))}] ${Math.floor(percent / (max / 100))}%${percent !== max ? " " + spinStates[spinState] : " ✓"}`);
+		out.write(`${label ? label + " " : ""}[${"#".repeat(Math.floor(percent / (max / length)))}${" ".repeat(length - Math.floor(percent / (max / length)))}] ${Math.floor(percent / (max / 100))}%${percent !== max ? " " + spinStates[spinState] : " ✓"}`);
 	}
 
 	render() {
 		switch (this.type) {
 			case "bar":
-				ProgressBar._renderBar(this.out, this.label, this.percent, this.max);
+				ProgressBar._renderBar(this.out, this.barLength, this.label, this.percent, this.max);
 				break;
 			case "bar/spin":
-				ProgressBar._renderBarSpin(this.out, this.label, this.percent, this.max, this._spinState);
+				ProgressBar._renderBarSpin(this.out, this.barLength, this.label, this.percent, this.max, this._spinState);
 				break;
 			case "spin":
 				ProgressBar._renderSpin(this.out, this.label, this._spinState);
@@ -140,10 +145,10 @@ export class ProgressBar {
 				ProgressBar._renderPercentSpin(this.out, this.label, this.percent, this.max, this._spinState);
 				break;
 			case "bar/percent":
-				ProgressBar._renderBarPercent(this.out, this.label, this.percent, this.max);
+				ProgressBar._renderBarPercent(this.out, this.barLength, this.label, this.percent, this.max);
 				break;
 			case "bar/percent/spin":
-				ProgressBar._renderBarPercentSpin(this.out, this.label, this.percent, this.max, this._spinState);
+				ProgressBar._renderBarPercentSpin(this.out, this.barLength, this.label, this.percent, this.max, this._spinState);
 				break;
 		}
 	}
