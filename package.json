@@ -1,0 +1,27 @@
+{
+  "name": "progress-bar",
+  "version": "1.0.0",
+  "description": "A console progress bar for JS",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "node test/index.js",
+    "compile": "echo \"Compiling...\" && tsc ts/index.ts --outDir src/ -d -t es2020 -m es2020 --esModuleInterop --moduleResolution node && echo \"Done!\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/doinkythederp/progress-bar.git"
+  },
+  "keywords": [
+    "progress-bar",
+    "console"
+  ],
+  "author": "doinkythederp",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/doinkythederp/progress-bar/issues"
+  },
+  "homepage": "https://github.com/doinkythederp/progress-bar#readme",
+  "devDependencies": {
+    "@types/node": "^14.14.41"
+  }
+}
