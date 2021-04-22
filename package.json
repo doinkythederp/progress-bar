@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "description": "A console progress bar for JS",
   "main": "src/index.js",
+  "type": "module",
+  "types": "src/index.d.ts",
   "scripts": {
     "test": "node test/index.js",
     "compile": "echo \"Compiling...\" && tsc ts/index.ts --outDir src/ -d -t es2020 -m es2020 --esModuleInterop --moduleResolution node && echo \"Done!\""
