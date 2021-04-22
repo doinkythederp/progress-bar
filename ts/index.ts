@@ -26,7 +26,7 @@ interface ProgressBarOptions {
  * Progress bar that goes in the console
  */
 export class ProgressBar {
-	constructor(options: ProgressBarOptions = {}, out: WriteStream = process.stdout) {
+	constructor(options: ProgressBarOptions = {}, out: typeof process.stdout = process.stdout) {
 		this.type = options.type ?? "bar",
 		this.out = out, this.percent = options.start ?? 0,
 		this.max = options.max ?? 100,
@@ -62,20 +62,22 @@ export class ProgressBar {
 	 */
 	max: number;
 
-	/**  */
-	out: WriteStream;
+	/** The write stream to log to */
+	out: typeof process.stdout;
 
+	/** The label of the progress bar */
 	label: string;
 
 	/** @protected */
 	_spinState: number;
 
+	/** Promise that resolves when the bar has finished (when `this.percent >= this.max`) */
 	finish: Promise<void>;
 
 	/** @private */
 	_finish: Function;
 
-	/** Whether or not the progress bar has finished - if true, means that logging is safe. */
+	/** Whether or not the progress bar has finished - if true, means that logging to the console is safe. */
 	isFinished: boolean;
 
 	/** @protected */
