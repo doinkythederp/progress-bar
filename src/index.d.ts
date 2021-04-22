@@ -1,5 +1,3 @@
-/// <reference types="node" />
-import { Writable as WriteStream } from "stream";
 /** The type of the progress bar */
 export declare type ProgressBarType = "bar" | "bar/spin" | "spin" | "percent" | "percent/spin" | "bar/percent" | "bar/percent/spin";
 interface ProgressBarOptions {
@@ -13,7 +11,7 @@ interface ProgressBarOptions {
  * Progress bar that goes in the console
  */
 export declare class ProgressBar {
-    constructor(options?: ProgressBarOptions, out?: WriteStream);
+    constructor(options?: ProgressBarOptions, out?: typeof process.stdout);
     /** The length of the bar when using bar types */
     barLength: number;
     /**
@@ -30,30 +28,32 @@ export declare class ProgressBar {
      * @default 100
      */
     max: number;
-    /**  */
-    out: WriteStream;
+    /** The write stream to log to */
+    out: typeof process.stdout;
+    /** The label of the progress bar */
     label: string;
     /** @protected */
     _spinState: number;
+    /** Promise that resolves when the bar has finished (when `this.percent >= this.max`) */
     finish: Promise<void>;
     /** @private */
     _finish: Function;
-    /** Whether or not the progress bar has finished - if true, means that logging is safe. */
+    /** Whether or not the progress bar has finished - if true, means that logging to the console is safe. */
     isFinished: boolean;
     /** @protected */
-    static _renderBar(out: WriteStream, length: number, label: string, percent: number, max: number): void;
+    static _renderBar(out: typeof process.stdout, length: number, label: string, percent: number, max: number): void;
     /** @protected */
-    static _renderBarSpin(out: WriteStream, length: number, label: string, percent: number, max: number, spinState: number): void;
+    static _renderBarSpin(out: typeof process.stdout, length: number, label: string, percent: number, max: number, spinState: number): void;
     /** @protected */
-    static _renderSpin(out: WriteStream, label: string, spinState: number): void;
+    static _renderSpin(out: typeof process.stdout, label: string, spinState: number): void;
     /** @protected */
-    static _renderPercent(out: WriteStream, label: string, percent: number, max: number): void;
+    static _renderPercent(out: typeof process.stdout, label: string, percent: number, max: number): void;
     /** @protected */
-    static _renderPercentSpin(out: WriteStream, label: string, percent: number, max: number, spinState: number): void;
+    static _renderPercentSpin(out: typeof process.stdout, label: string, percent: number, max: number, spinState: number): void;
     /** @protected */
-    static _renderBarPercent(out: WriteStream, length: number, label: string, percent: number, max: number): void;
+    static _renderBarPercent(out: typeof process.stdout, length: number, label: string, percent: number, max: number): void;
     /** @protected */
-    static _renderBarPercentSpin(out: WriteStream, length: number, label: string, percent: number, max: number, spinState: number): void;
+    static _renderBarPercentSpin(out: typeof process.stdout, length: number, label: string, percent: number, max: number, spinState: number): void;
     render(): void;
     tick(percent?: number): this;
 }

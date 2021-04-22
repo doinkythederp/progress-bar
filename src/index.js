@@ -30,43 +30,43 @@ export class ProgressBar {
     static _renderBar(out, length, label, percent, max) {
         out.write(AnsiCodes.clear);
         out.write(AnsiCodes.start);
-        out.write(`${label ? label + " " : ""}[${"#".repeat(Math.floor(percent / (max / length)))}${" ".repeat(length - Math.floor(percent / (max / length)))}]`);
+        out.write(`${label ? label + " " : ""}[${"#".repeat(Math.floor(percent / (max / length)))}${" ".repeat(length - Math.floor(percent / (max / length)))}]`.substr(0, out.columns));
     }
     /** @protected */
     static _renderBarSpin(out, length, label, percent, max, spinState) {
         out.write(AnsiCodes.clear);
         out.write(AnsiCodes.start);
-        out.write(`${label ? label + " " : ""}[${"#".repeat(Math.floor(percent / (max / length)))}${" ".repeat(length - Math.floor(percent / (max / length)))}]${percent !== max ? " " + spinStates[spinState] : " ✓"}`);
+        out.write(`${label ? label + " " : ""}[${"#".repeat(Math.floor(percent / (max / length)))}${" ".repeat(length - Math.floor(percent / (max / length)))}]${percent !== max ? " " + spinStates[spinState] : " ✓"}`.substr(0, out.columns));
     }
     /** @protected */
     static _renderSpin(out, label, spinState) {
         out.write(AnsiCodes.clear);
         out.write(AnsiCodes.start);
-        out.write(`${label ? label + " " : ""}${spinStates[spinState]}`);
+        out.write(`${label ? label + " " : ""}${spinStates[spinState]}`.substr(0, out.columns));
     }
     /** @protected */
     static _renderPercent(out, label, percent, max) {
         out.write(AnsiCodes.clear);
         out.write(AnsiCodes.start);
-        out.write(`${label ? label + " " : ""}${Math.floor(percent / (max / 100))}%`);
+        out.write(`${label ? label + " " : ""}${Math.floor(percent / (max / 100))}%`.substr(0, out.columns));
     }
     /** @protected */
     static _renderPercentSpin(out, label, percent, max, spinState) {
         out.write(AnsiCodes.clear);
         out.write(AnsiCodes.start);
-        out.write(`${label ? label + " " : ""}${Math.floor(percent / (max / 100))}%${percent !== max ? " " + spinStates[spinState] : " ✓"}`);
+        out.write(`${label ? label + " " : ""}${Math.floor(percent / (max / 100))}%${percent !== max ? " " + spinStates[spinState] : " ✓"}`.substr(0, out.columns));
     }
     /** @protected */
     static _renderBarPercent(out, length, label, percent, max) {
         out.write(AnsiCodes.clear);
         out.write(AnsiCodes.start);
-        out.write(`${label ? label + " " : ""}[${"#".repeat(Math.floor(percent / (max / length)))}${" ".repeat(length - Math.floor(percent / (max / length)))}] ${Math.floor(percent / (max / 100))}%`);
+        out.write(`${label ? label + " " : ""}[${"#".repeat(Math.floor(percent / (max / length)))}${" ".repeat(length - Math.floor(percent / (max / length)))}] ${Math.floor(percent / (max / 100))}%`.substr(0, out.columns));
     }
     /** @protected */
     static _renderBarPercentSpin(out, length, label, percent, max, spinState) {
         out.write(AnsiCodes.clear);
         out.write(AnsiCodes.start);
-        out.write(`${label ? label + " " : ""}[${"#".repeat(Math.floor(percent / (max / length)))}${" ".repeat(length - Math.floor(percent / (max / length)))}] ${Math.floor(percent / (max / 100))}%${percent !== max ? " " + spinStates[spinState] : " ✓"}`);
+        out.write(`${label ? label + " " : ""}[${"#".repeat(Math.floor(percent / (max / length)))}${" ".repeat(length - Math.floor(percent / (max / length)))}] ${Math.floor(percent / (max / 100))}%${percent !== max ? " " + spinStates[spinState] : " ✓"}`.substr(0, out.columns));
     }
     render() {
         switch (this.type) {
