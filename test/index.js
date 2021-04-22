@@ -1,5 +1,4 @@
 import { ProgressBar } from "../src/index.js";
-import { promisify } from "util";
 import readline from "readline";
 
 const rl = readline.createInterface(process.stdin, process.stdout);
