@@ -54,7 +54,8 @@ export default class ProgressBar {
     static _renderBarPercent(out: typeof process.stdout, length: number, label: string, percent: number, max: number): void;
     /** @protected */
     static _renderBarPercentSpin(out: typeof process.stdout, length: number, label: string, percent: number, max: number, spinState: number): void;
-    render(): void;
+    render(): this;
     tick(percent?: number): this;
+    setFinished(): void;
 }
 export {};

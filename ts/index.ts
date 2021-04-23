@@ -178,6 +178,12 @@ export default class ProgressBar {
 		}
 		return this;
 	}
+
+	setFinished() {
+		this.max = 100,
+		this.percent = 100;
+		this.tick(0);
+	}
 }
 
 function getPercent(current: number, max: number) {
@@ -187,5 +193,5 @@ function getPercent(current: number, max: number) {
 }
 
 function createBar(current: number, max: number, length: number) {
-	return `[${"#".repeat(Math.floor(current / (max / length)))}${" ".repeat(length - Math.floor(current / (max / length)))}]`;
+	return `${"#".repeat(Math.floor(current / (max / length)))}${" ".repeat(length - Math.floor(current / (max / length)))}`;
 }

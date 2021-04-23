@@ -95,6 +95,7 @@ class ProgressBar {
                 ProgressBar._renderBarPercentSpin(this.out, this.barLength, this.label, this.percent, this.max, this._spinState);
                 break;
         }
+        return this;
     }
     tick(percent = 1) {
         let doFinish = false;
@@ -102,7 +103,7 @@ class ProgressBar {
         if (this._spinState > 3)
             this._spinState = 0;
         this.percent += percent;
-        if (this.percent >= this.max) {
+        if (getPercent(this.percent, this.max) === 100) {
             this.percent = this.max;
             doFinish = true;
         }
@@ -114,6 +115,11 @@ class ProgressBar {
             this.isFinished = true;
         }
         return this;
+    }
+    setFinished() {
+        this.max = 100,
+            this.percent = 100;
+        this.tick(0);
     }
 }
 exports.default = ProgressBar;
