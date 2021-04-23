@@ -153,6 +153,8 @@ export default class ProgressBar {
 				ProgressBar._renderBarPercentSpin(this.out, this.barLength, this.label, this.percent, this.max, this._spinState);
 				break;
 		}
+
+		return this;
 	}
 
 	tick(percent: number = 1) {
@@ -162,7 +164,7 @@ export default class ProgressBar {
 		if (this._spinState > 3) this._spinState = 0;
 
 		this.percent += percent;
-		if (this.percent >= this.max) {
+		if (getPercent(this.percent, this.max) === 100) {
 			this.percent = this.max;
 
 			doFinish = true;
@@ -181,7 +183,7 @@ export default class ProgressBar {
 function getPercent(current: number, max: number) {
 	let percent = Math.floor(current / (max / 100));
 	if (isNaN(percent)) percent = 100;
-	return percent
+	return percent;
 }
 
 function createBar(current: number, max: number, length: number) {
