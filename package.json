@@ -5,9 +5,7 @@
   "main": "./src/index.js",
   "types": "./src/index.d.ts",
   "scripts": {
-    "test": "node test/index.js",
-    "compile": "echo \"Compiling...\" && tsc ts/index.ts --outDir src/cjs/ -d -t es2020 -m commonjs --esModuleInterop --moduleResolution node && echo \"Done!\"",
-    "compile-es": "echo \"Compiling...\" && tsc ts/index.ts --outDir src/ -d -t es2020 -m es2020 --esModuleInterop --moduleResolution node && echo \"Done!\""
+    "test": "node test/index.js"
   },
   "repository": {
     "type": "git",
