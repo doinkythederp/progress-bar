@@ -15,10 +15,6 @@
     "progress-bar",
     "console"
   ],
-  "exports": {
-    "import": "./src/index.js",
-    "require": "./src/cjs/index.js"
-  },
   "author": "doinkythederp",
   "license": "MIT",
   "bugs": {
