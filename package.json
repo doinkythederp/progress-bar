@@ -3,7 +3,6 @@
   "version": "1.0.4",
   "description": "A console progress bar for JS",
   "main": "./src/index.js",
-  "type": "module",
   "types": "./src/index.d.ts",
   "scripts": {
     "test": "node test/index.js",
